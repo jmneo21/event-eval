@@ -1,9 +1,6 @@
 from datetime import datetime
-from email.policy import default
 from http.client import responses
 from flask import Flask, render_template, request, redirect, url_for, session, send_file, jsonify, render_template_string, make_response
-from flask_mail import Mail, Message
-from itsdangerous import URLSafeTimedSerializer
 from Event_Evaluation_with_Sentiment_Analysis_System import app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
@@ -14,7 +11,6 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import json
 import base64
 import requests
-from gensim.summarization import summarize
 from googletrans import Translator
 import pandas as pd
 import tempfile

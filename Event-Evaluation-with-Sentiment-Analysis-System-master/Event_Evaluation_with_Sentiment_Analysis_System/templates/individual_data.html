@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analytics</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        a,
+        button,
+        input,
+        select,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            text-decoration: none;
+            appearance: none;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <header class="header">
+            <nav class="navbar">
+                <ul class="menu">
+                    <li><a href="{{ url_for('home') }}" class="home-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('form_preview', form_id=form_id) }}">Form</a></li>
+                    <li><a href="{{ url_for('data', form_id=form_id) }}">Data Analytics</a></li>
+                </ul>
+            </nav>
+            <nav class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="{{ url_for('data', form_id=form_id) }}">Overall Summary</a></li>
+                    <li><a href="{{ url_for('individual_data', form_id=form_id) }}">Individual Responses</a></li>
+                    <li><a href="{{ url_for('filtered_data', form_id=form_id) }}">Filter<br>Data</a></li>
+                    <li><a href="{{ url_for('generate_report', form_id=form_id) }}">Generate Reports</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="data-container">
+            <div class="navigation">
+                <button id="prevBtn" onclick="showResponse(-1)"><</button>
+                <span id="responseNumber">1 out of {{ unique_respondents|length }}</span>
+                <button id="nextBtn" onclick="showResponse(1)">></button>
+            </div>
+            <div class="qbox"><span>Individual Responses</span></div>
+            {% if grouped_responses %}
+            <div class="response-placeholder"></div>
+            {% else %}
+            <div class="response-container">
+                <h2>No Responses Collected<br>Share the form and Collect Responses</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+<div class="rectangle-3"></div> 
+</body>
+</html>
+<script>
+    var totalRespondents = {{ unique_respondents | tojson | safe }};
+    var currentResponseIndex = 0;
+
+    function showResponse(step) {
+        currentResponseIndex += step;
+        if (currentResponseIndex < 0) {
+            currentResponseIndex = 0;
+        } else if (currentResponseIndex >= totalRespondents.length) {
+            currentResponseIndex = totalRespondents.length - 1;
+        }
+
+        var respondent = totalRespondents[currentResponseIndex];
+        var responses = {{ grouped_responses | tojson | e
+    }}[respondent];
+
+    // Update the response display by appending to the placeholder
+    var placeholder = document.querySelector('.response-placeholder');
+    placeholder.innerHTML = ''; // Clear existing content
+
+    for (var i = 0; i < responses.length; i++) {
+        var response = responses[i];
+        var questionText = response[0];
+        var responseText = response[1];
+
+        var responseContainer = document.createElement('div');
+        responseContainer.classList.add('response-container');
+
+        var questionDiv = document.createElement('div');
+        questionDiv.textContent = questionText;
+        questionDiv.classList.add('indiv_question');
+        responseContainer.appendChild(questionDiv);
+
+        var responseContentDiv = document.createElement('div');
+        responseContentDiv.textContent = responseText;
+        responseContentDiv.classList.add('indiv_response');
+        responseContainer.appendChild(responseContentDiv);
+
+        placeholder.appendChild(responseContainer); // Append to the placeholder
+    }
+
+    // Update the response number
+    document.getElementById('responseNumber').textContent = currentResponseIndex + 1 + " out of " + totalRespondents.length;
+    }
+
+    // Initialize with the first response
+    showResponse(0);
+</script>
+
+
+

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cabin&display=swap">
+    <style>
+        body, html {
+            background-color: #A9CBC9;
+        }
+        .img {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            border-radius: 50%;
+            margin-left: 200px;
+        }
+        .edit-container {
+            background-color: #F0E7CF;
+            height: auto;
+            margin: auto;
+            padding: 50px;
+            margin-top: 100px;
+            border-radius: 10px;
+            width: 500px;
+            box-shadow: 5px 5px 10px 5px #888;
+            margin-bottom: 50px;
+        }
+        .text-profile {
+            display: relative;
+            margin-top: -20px;
+            font-size: 24px;
+            font-family: 'Cabin';
+            font-weight: bold;
+            color: #61492E;
+        }
+        .full-name {
+            display: flex;
+            flex-direction: row;
+            column-gap: 20px;
+        }
+        .name::placeholder {
+            color: #61492E;
+            font-family: 'Cabin';
+            font-size: 14px;
+        }
+        .name {
+            border: none;
+            border-radius: 5px;
+            background-color: #E4D2BD;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .labels {
+            display: flex;
+            flex-direction: row;
+            column-gap: 188px;
+            margin-left: 2px;
+            margin-top: 20px;
+        }
+        .label-name {
+            font-family: 'Cabin';
+            font-size: 16px;
+            color: #61492E;
+        }
+        .email-text {
+            font-family: 'Cabin';
+            font-size: 16px;
+            color: #61492E;
+            margin-left: 2px;
+        }
+        .email::placeholder {
+            color: #61492E;
+            font-family: 'Cabin';
+            font-size: 14px;
+        }
+        .email {
+            border: none;
+            border-radius: 5px;
+            background-color: #E4D2BD;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .password-text {
+            font-family: 'Cabin';
+            font-size: 16px;
+            color: #61492E;
+            margin-left: 2px;
+        }
+        .password {
+            border: none;
+            border-radius: 5px;
+            background-color: #E4D2BD;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .password::placeholder {
+            color: #61492E;
+            font-family: 'Cabin';
+            font-size: 14px;
+        }
+        .contact-text {
+            font-family: 'Cabin';
+            font-size: 16px;
+            color: #61492E;
+            margin-left: 2px;
+        }
+        .number::placeholder {
+            color: #61492E;
+            font-family: 'Cabin';
+            font-size: 14px;
+        }
+        .number {
+            border: none;
+            border-radius: 5px;
+            background-color: #E4D2BD;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .buttons {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background-color: #E8BA84;
+            border: none;
+            color: #61492E;
+            font-family: 'Cabin';
+            font-size: 14px;
+            border-radius: 5px;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 20%;
+        }
+        .buttons:hover {
+            background-color: #CEA778;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            column-gap: 25px;
+        }
+    </style>
+</head>
+<body>
+    <form id="edit-profile">
+        <div class="edit-container">
+            <p class="text-profile">Edit Profile</p>
+            <img id="profile-image" src="./images/edited kharyn.jpg" alt="Profile Image" class="img">
+            <div class="labels">
+                <label for="first-name" class="label-name">First Name</label>
+                <label for="last-name" class="label-name">Last Name</label>
+            </div>
+            <div class="full-name">  
+                <input type="text" placeholder="First Name" id="first-name" class="name"> 
+                <input type="text" placeholder="Last Name" id="last-name" class="name">
+            </div>
+            <label for="email" class="email-text">Email</label>
+            <input type="text" placeholder="Email" id="email" class="email">
+            <label for="password" class="password-text">Password</label>
+            <input type="password" placeholder="Password" id="password" class="password">
+            <label for="number" class="contact-text">Contact Number</label>
+            <input type="text" placeholder="Contact Number" id="number" class="number">
+            <div class="button-container">
+                <button type="button" class="buttons">Cancel</button>
+                <button type="button" class="buttons">Save</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

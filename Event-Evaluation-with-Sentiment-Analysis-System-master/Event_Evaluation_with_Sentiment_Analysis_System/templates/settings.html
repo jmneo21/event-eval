@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Form Page</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin+Condensed">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin">
+</head>
+<body>
+<!-- settings -->
+    <form action="">
+    <div class="settings">
+        <h1 class="header">Customize your form</h1>
+        <hr class="hr1">
+        <div class="input-box">
+            <input type="text" placeholder="Insert Form Title" class="form-title">
+            <input type="text" placeholder="Insert Form Description" class="form-description">
+            <input type="text" placeholder="Insert Submission Confirmation Message" class="message">
+            <input type="text" placeholder="Question" class="question">
+        </div>
+        <div class="dropdown_1">
+            <select name="fonts_1" id="dropdown_1">
+                <option value="Arial">Arial</option>
+                <option value="Calibri">Calibri</option>
+                <option value="Option3">Times New Roman</option>
+            </select>
+        </div>
+        <div class="dropdown_2">
+            <select name="size_1" id="dropdown_2">
+                <option value="12">12</option>
+                <option value="14">14</option>
+                <option value="16">16</option>
+            </select>
+        </div>
+        <div class="dropdown_3">
+            <select name="fonts_2" id="dropdown_3">
+                <option value="Arial">Arial</option>
+                <option value="Calibri">Calibri</option>
+                <option value="Option3">Times New Roman</option>
+            </select>
+        </div>
+        <div class="dropdown_4">
+            <select name="fonts_3" id="dropdown_4">
+                <option value="Arial">Calibri</option>
+                <option value="Calibri">Arial</option>
+                <option value="Option3">Times New Roman</option>
+            </select>
+        </div>
+        <div class="dropdown_5">
+            <select name="size_2" id="dropdown_5">
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="14">14</option>
+            </select>
+        </div>
+        <div class="dropdown_6">
+            <select name="size_3" id="dropdown_6">
+                <option value="11">12</option>
+                <option value="12">16</option>
+                <option value="14">14</option>
+            </select>
+        </div>
+        <hr class="hr2">
+        <div class="dropdown_7">
+            <select name="fonts_4" id="dropdown_7">
+                <option value="Calibri">Calibri</option>
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+            </select>
+        </div>
+        <div class="dropdown_8">
+            <select name="size_4" id="dropdown_8">
+                <option value="13">13</option>
+                <option value="12">12</option>
+                <option value="14">14</option>
+            </select>
+        </div>
+        <hr class="hr3">
+        <h2 class="primary-text">Primary Color</h2>
+        <div class="primary-picker">
+            <input type="color" id="primary" class="primary">
+            <img src="images/palette.png" alt="Color Palette" class="color-picker-icon">
+        </div>
+        <h2 class="secondary-text">Secondary Color</h2>
+        <div class="secondary-picker">
+            <input type="color" id="secondary" class="secondary">
+            <img src="images/palette.png" alt="Color Palette" class="color-picker-icon">
+        </div>
+        <div class="text">
+            <p class="info">Personal Information</p>
+        </div>
+        <p class="text-req">Required</p>
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label>
+        <button type="submit" class="save-settings">Save Settings</button>
+    </div>
+    </form>
+</body>
+</html>

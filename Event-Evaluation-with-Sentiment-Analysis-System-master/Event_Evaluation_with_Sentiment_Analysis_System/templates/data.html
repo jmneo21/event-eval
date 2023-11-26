@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analytics</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        a,
+        button,
+        input,
+        select,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            text-decoration: none;
+            appearance: none;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <header class="header">
+            <nav class="navbar">
+                <ul class="menu">
+                    <li><a href="{{ url_for('home') }}" class="home-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('form_preview', form_id=form_id) }}">Form</a></li>
+                    <li><a href="{{ url_for('data', form_id=form_id) }}">Data Analytics</a></li>
+                </ul>
+            </nav>
+            <nav class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="{{ url_for('data', form_id=form_id) }}">Overall Summary</a></li>
+                    <li><a href="{{ url_for('individual_data', form_id=form_id) }}">Individual Responses</a></li>
+                    <li><a href="{{ url_for('filtered_data', form_id=form_id) }}">Filter<br>Data</a></li>
+                    <li><a href="{{ url_for('generate_report', form_id=form_id) }}">Generate Reports</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="data-container">
+        <div class="qbox"><span>Overall Summary</span></div>
+            {% if question_responses %}
+            <div class="response-container">
+                <h2>Open Ended Summary</h2>
+                <div id="piechart" class="overall-piechart"></div>
+                <div class="response-count">
+                    <img class="respondent1-img" src="{{ url_for('static', filename='images/user-icon.svg') }}" alt="User">
+                    <span>{{ total_respondents }}</span><p>responses</p>
+                </div>
+                <div class="summary">
+                    <span>{{ summary }}</span><br><br>
+                    <span>For more info, Press the Details Button</span>
+                </div>
+                <button class="details-button">Details</button>
+                <div class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Questions with Responses:</h2>
+                        <ul>
+                            {% for question_text, responses in question_responses.items() %}
+                                <li>
+                                    <strong>Question: {{ question_text }}</strong>
+                                    <ul class="sentiment-columns">
+                                        <li class="positive">
+                                            <strong>Positive</strong>
+                                            <ul>
+                                                {% for response in responses.Positive %}
+                                                    <li>{{ response }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        <li class="neutral">
+                                            <strong>Neutral</strong>
+                                            <ul>
+                                                {% for response in responses.Neutral %}
+                                                    <li>{{ response }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        <li class="negative">
+                                            <strong>Negative</strong>
+                                            <ul>
+                                                {% for response in responses.Negative %}
+                                                    <li>{{ response }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="response-container">
+                <h2>Multiple Choices Summary</h2>
+                <div id="barchart" class="overall-barchart"></div>
+                <div class="response-count">
+                    <img class="respondent1-img" src="{{ url_for('static', filename='images/user-icon.svg') }}" alt="User">
+                    <span>{{ total_respondents }}</span><p>responses</p>
+                </div>
+                <div class="summary">
+                    <p>
+                        {% for choice_summary in choice_summaries %}
+                            {{ choice_summary }}<br><br>
+                        {% endfor %}
+                    <span>For more info, Press the Details Button</span>
+                    </p>
+                </div>
+                <button class="details-button">Details</button>
+                <div class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Questions with Responses:</h2>
+                        {% set question_responses = {} %}
+                        {% for response, question in responses_with_questions %}
+                            {% if question.question_type == 'Multiple Choices' %}
+                                {% set question_text = question.question_text %}
+                                {% set response_text = response.response %}
+                                {% if question_text not in question_responses %}
+                                    {% set _ = question_responses.update({question_text: {}}) %}
+                                {% endif %}
+                                {% if response_text not in question_responses[question_text] %}
+                                    {% set _ = question_responses[question_text].update({response_text: 0}) %}
+                                {% endif %}
+                                {% set _ = question_responses[question_text].update({response_text: question_responses[question_text][response_text] + 1}) %}
+                            {% endif %}
+                        {% endfor %}
+                        <ul>
+                            {% for question_text, responses in question_responses.items() %}
+                                <li>
+                                    <strong>Question: {{ question_text }}</strong>
+                                    <ul>
+                                        {% for response_text, count in responses.items() %}
+                                            <li>{{ response_text }} (Count: {{ count }})</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="response-container">
+                <h2>CheckBox Summary</h2>
+                <div id="checkbox_barchart" class="overall-barchart"></div>
+                <div class="response-count">
+                    <img class="respondent1-img" src="{{ url_for('static', filename='images/user-icon.svg') }}" alt="User">
+                    <span>{{ total_checkbox_respondents }}</span><p>responses</p>
+                </div>
+                <div class="summary">
+                    <p>
+                        {% for choice_summary in choice_summaries %}
+                            {{ checkbox_choice_summary_text }}<br><br>
+                        {% endfor %}
+                    <span>For more info, Press the Details Button</span>
+                    </p>
+                </div>
+                <button class="details-button">Details</button>
+                <div class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Questions with Responses:</h2>
+                        {% set question_responses = {} %}
+                        {% for response, question in responses_with_questions %}
+                            {% if question.question_type == 'CheckBox' %}
+                                {% set question_text = question.question_text %}
+                                {% set response_text = response.response %}
+                                {% if question_text not in question_responses %}
+                                    {% set _ = question_responses.update({question_text: {}}) %}
+                                {% endif %}
+                                {% if response_text not in question_responses[question_text] %}
+                                    {% set _ = question_responses[question_text].update({response_text: 0}) %}
+                                {% endif %}
+                                {% set _ = question_responses[question_text].update({response_text: question_responses[question_text][response_text] + 1}) %}
+                            {% endif %}
+                        {% endfor %}
+                        <ul>
+                            {% for question_text, responses in question_responses.items() %}
+                                <li>
+                                    <strong>Question: {{ question_text }}</strong>
+                                    <ul>
+                                        {% for response_text, count in responses.items() %}
+                                            <li>{{ response_text }} (Count: {{ count }})</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="response-container">
+            <h2>No Responses Collected<br> Share the Form and Collect Responses</h2>
+        </div>
+        {% endif %}
+    </div>
+<div class="rectangle-3"></div> 
+</body>
+</html>
+<script>
+    // Get all "Details" buttons and modal elements
+    var buttons = document.querySelectorAll('.details-button');
+    var modals = document.querySelectorAll('.modal');
+
+    // Add a click event listener to each "Details" button
+    buttons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
+            modals[index].style.display = 'block';
+        });
+    });
+
+    // Add a click event listener to each close button (the "x" icon)
+    var closeButtons = document.querySelectorAll('.close');
+    closeButtons.forEach(function (closeButton) {
+        closeButton.addEventListener('click', function () {
+            closeButton.parentElement.parentElement.style.display = 'none';
+        });
+    });
+
+    // When the user clicks anywhere outside the modal, close it
+    window.addEventListener('click', function (event) {
+        modals.forEach(function (modal) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+    // Close the modal when the user presses the Esc key
+    window.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            modals.forEach(function (modal) {
+                modal.style.display = 'none';
+            });
+        }
+    });
+
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Define the pie chart data (chartData variable is passed from Flask)
+        var pieData = google.visualization.arrayToDataTable({{ chart_data | safe }});
+    var pieOptions = {
+        title: 'Sentiment Analysis Results',
+        backgroundColor: 'transparent',
+    };
+    var pieChart = new google.visualization.PieChart(document.getElementById('piechart'));
+    pieChart.draw(pieData, pieOptions);
+
+    // Define the bar chart data for the Multiple Choices (choice_chart_data variable is passed from Flask)
+    var barData = google.visualization.arrayToDataTable({{ choice_chart_data | safe }});
+    var barOptions = {
+        title: 'Response Counts',
+        backgroundColor: 'transparent',
+        legend: { position: "none" },
+    };
+
+    var barChart = new google.visualization.ColumnChart(document.getElementById('barchart'));
+    barChart.draw(barData, barOptions);
+
+    // Define the bar chart data for the CheckBox type question responses (checkbox_chart_data variable is passed from Flask)
+    var checkboxData = google.visualization.arrayToDataTable({{ checkbox_chart_data | safe }});
+    var checkboxOptions = {
+        title: 'Checkbox Response Counts',
+        backgroundColor: 'transparent',
+        legend: { position: "none" },
+    };
+
+    var checkboxChart = new google.visualization.ColumnChart(document.getElementById('checkbox_barchart'));
+    checkboxChart.draw(checkboxData, checkboxOptions);
+}
+</script>
+

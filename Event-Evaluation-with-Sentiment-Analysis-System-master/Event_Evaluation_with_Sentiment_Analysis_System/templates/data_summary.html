@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analytics</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        a,
+        button,
+        input,
+        select,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            text-decoration: none;
+            appearance: none;
+            background: none;
+        }
+    </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Sentiment', 'Score'],
+          ['Positive', 11],
+          ['Neutral', 2],
+          ['Negative', 3]
+        ]);
+
+        var options = {
+          title: 'Sentiment Analysis Results',
+          backgroundColor: 'transparent',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+    <script type="text/javascript">
+  google.charts.load("current", {packages:['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ["Gender", "Count", { role: "style" } ],
+      ["Male", 945, "#CEA778"],
+      ["Female", 800, "#CEA778"],
+    ]);
+
+    var view = new google.visualization.DataView(data);
+    view.setColumns([0, 1,
+                     { calc: "stringify",
+                       sourceColumn: 1,
+                       type: "string",
+                       role: "annotation" },
+                     2]);
+
+    var options = {
+      width: 600,
+      height: 400,
+      bar: {groupWidth: "60%"},
+      legend: { position: "none" },
+      backgroundColor: 'transparent',
+    };
+    var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+    chart.draw(view, options);
+}
+</script>
+
+<script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Age", "Total", { role: "style" } ],
+        ["15-20", 741, "#786d6d"],
+        ["21-26", 456, "#786d6d"],
+        ["27-32", 376, "#786d6d"],
+        ["33-38", 45, "#786d6d"],
+        ["39-43", 127, "#786d6d"],
+      ]);
+  
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+  
+      var options = {
+        width: 600,
+        height: 500,
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: 'transparent',
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart-age"));
+      chart.draw(view, options);
+  }
+  </script>
+
+  <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Count', 'Data1', 'Data2', 'Data3'],
+          ['1', 1000, 400, 200],
+          ['2', 1170, 460, 250],
+          ['3', 660, 1120, 300],
+          ['4', 1030, 540, 350],
+          ['5', 100, 200, 400]
+        ]);
+
+        var options = {
+          chart: {
+            title: 'Draft Title',
+            subtitle: 'Draft Subtitle',
+          },
+          backgroundColor: {
+            fill: 'none',
+            stroke: 'none'
+          },
+          series: {
+            0: { color: '#b0b0b0'},
+            1: { color: '#6a6ea9'},
+            2: { color: '#2d2f4e'}
+          },
+          chartArea: {
+            backgroundColor: 'transparent',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+
+</head>
+<body>
+    <div class="background">
+        <header class="header">
+            <nav class="navbar">
+                <ul class="menu">
+                    <li><a href="{{ url_for('home') }}" class="home-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('form_preview', form_id=form_id) }}">Form</a></li>
+                    <li><a href="{{ url_for('data', form_id=form_id) }}">Data Analytics</a></li>
+                </ul>
+            </nav>
+            <nav class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="{{ url_for('data', form_id=form_id) }}">Overall Summary</a></li>
+                    <li><a href="{{ url_for('individual_data', form_id=form_id) }}">Individual Responses</a></li>
+                    <li><a href="{{ url_for('data_summary', form_id=form_id) }}">Summary Per Question</a></li>
+                    <li><a href="">Answers Per Question</a></li>
+                    <li><a href="{{ url_for('generate_report', form_id=form_id) }}">Generate Reports</a></li>
+                </ul>
+            </nav>
+        </header>
+
+    <h1 class="general"></h1>
+
+    <div class="navigation">
+                <button id="prevBtn" onclick="showResponse(-1)"><</button>
+                <span id="responseNumber">1 out of </span>
+                <button id="nextBtn" onclick="showResponse(1)">></button>
+            </div>
+
+    <div class="data-container">
+        <div class="summary-box">
+            <div class="box-question1">
+                <div class="rec-question1">
+                    <h2 class="question1">Question 1</h2>
+                </div>
+                
+                <div class="line-2"></div>
+                <div id="piechart" class="piechart"></div>
+                
+                <div class="line-container">
+                    <div class="line-1"></div>
+                </div>
+
+                <div class="info">
+                    <img class="respondent-img" src="{{ url_for('static', filename='images/user-icon.svg') }}" alt="User">
+                    <img class="positive-img" src="{{ url_for('static', filename='images/smiley.svg') }}" alt="Positive">
+                    <img class="neutral-img" src="{{ url_for('static', filename='images/neutral.svg') }}" alt="Neutral">
+                    <img class="negative-img" src="{{ url_for('static', filename='images/sad.svg') }}" alt="Negative">
+                </div>
+
+                <div class="text-data">
+                    <p class="response-no"> responses</p>
+                    <p class="positive-no">Positive - </p>
+                    <p class="neutral-no">Neutral - </p>
+                    <p class="negative-no">Negative - </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary-box1">
+            <div class="info-container">
+                <div class="info-text">
+                    <p class="total-text">Total Responses Per Gender</p>
+                    <p class="text-responses">1745 Responses</p>
+                </div>
+            </div>
+            <div id="columnchart_values" class="columnchart_values"></div>
+        </div>
+
+        <div class="summary-box2">
+            <div class="info-container">
+                <div class="info-text">
+                    <p class="total-text">Total Responses Per Gender</p>
+                    <p class="text-responses">1745 Responses</p>
+                </div>
+            </div>
+            <div class="columnchart-age" id="columnchart-age"></div>
+        </div>
+
+        <div class="summary-box3">
+            <div class="rec-question1">
+                <h2 class="question1">Question 1</h2>
+            </div>
+            <div class="columnchart_material" id="columnchart_material"></div>
+            <div class="material-info">
+                <img class="material-usrimg" src="{{ url_for('static', filename='images/user-icon.svg') }}" alt="User">
+                <p class="material-text">1745 responses</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

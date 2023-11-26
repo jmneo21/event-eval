@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dela+Gothic+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin+Condensed">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        a,
+        button,
+        input,
+        select,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            text-decoration: none;
+            appearance: none;
+            background: none;
+        }
+    </style>
+    <title>SignUp</title>
+</head>
+<body>
+    <div class="background">
+        <div class="rectangle-1"></div>
+        <div class="rectangle-2"></div>
+        <div class="rectangle-3"></div>
+        <div class="create-your-forms-seamlessly">
+            CREATE YOUR FORMS SEAMLESSLY
+        </div>
+        <div class="empower-your-survey-data-with-sentiment-analysis">
+            Empower your survey data with sentiment analysis.
+        </div>
+        <div class="text"></div>
+        <div class="sign-up-to-create">
+            Sign-up to create and access Forms
+        </div>
+        <form method="POST" action="/signup">
+            <div class="name-container">
+                <div class="name-content">
+                    <img class="ImgUser" src="{{ url_for('static', filename='images/user.svg') }}" alt="User" />
+                    <input type="text" placeholder="Name" id="name" name="name" class="name-input" style="display:block;" required>
+                </div>
+            </div>
+            <div class="email-container2">
+                <div class="email-content2">
+                    <img class="ImgEmail2" src="{{ url_for('static', filename='images/email.svg') }}" alt="Email" />
+                    <input type="email" placeholder="Email" id="email" name="email" class="email-input2" style="display:block;" required>
+                </div>
+            </div>
+            <p id="error-message" style="color: red; display: block; transform: translate(630px, 270px)">{{ error_message }}</p>
+            <div class="password-container2">
+                <div class="password-content2">
+                    <img class="ImgPassword2" src="{{ url_for('static', filename='images/password.svg') }}" alt="Password" />
+                    <input type="password" placeholder="Password" id="password" name="password" class="password-input2" style="display:block;" required>
+                </div>
+            </div>
+            <button type="submit" class="signup">Sign-up</button>
+        </form>
+        <div class="already-have-an-account">Already Have an Account?</div>
+        <button type="submit" class="login" onclick="window.location.href = '{{ url_for('login')}}'">Login</button>
+    </div>
+</body>
+</html>

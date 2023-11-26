@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Form</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+        a,
+        button,
+        input,
+        select,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            text-decoration: none;
+            appearance: none;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        {% if banner_image %}
+            <img src='data:image/jpeg;base64,{{ banner_image }}' alt="Form Image" class="success-banner-image">
+        {% endif %}
+        <div class="success-container">
+            <h2>Response Success!!!</h2>
+            <span>Thank you for answering this form:</span><br><p>{{form.title}}</p><br>
+            <span>created by:</span>
+            <p>{{name}}</p>
+            {% if profile_pic %}
+                <img class="profile" src="data:image/jpeg;base64,{{ profile_pic }}" alt="Profile Picture">
+            {% endif %}
+            <br>
+            <a href="{{url_for('login')}}">
+                <button>Create Your Own Form</button>
+            </a>
+        </div>
+        <div class="rectangle-3"></div>
+    </div>
+</body>
+</html>
